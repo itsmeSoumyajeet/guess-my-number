@@ -14,41 +14,48 @@ const playReset = new Audio('./audio/reset.mp3');
 const playLoose = new Audio('./audio/loose.mp3');
 const playRight = new Audio('./audio/right.mp3');
 const playWrong = new Audio('./audio/wrong.mp3');
+const playNaN = new Audio('./audio/nan.mp3');
 
-resetBTN.addEventListener('click', function(){
+resetBTN.addEventListener('click', function () {
+    pauseAudio();
     gameReset();
     playReset.play();
-    randomNumberGenerator(1, 20);
+    myNum = randomNumberGenerator(1, 20);
 });
 
-submitBTN.addEventListener("click", function() {
-    if(Number(currScore.textContent) <= 0) {
-        document.getElementsByTagName('body')[0].style.backgroundColor = '#C5172E';
-        document.getElementById('user-input').style.backgroundColor = '#C5172E';
-        playLoose.play();
-        window.alert('Better luck next time 👎');
-    }
-    if(Number(myNum) !== Number(inputBox.value)) {
-        playWrong.play();
-        document.getElementById('user-input').style.backgroundColor = '#2b2b2b';
-        currScore.textContent = Number(currScore.textContent) - 1;
-        if(inputBox.value > myNum)
-        {
-            line1.textContent = '📈 Too high';
-        } else if(inputBox.value < myNum) {
-            line1.textContent = '📉 Too low';
-        }
+submitBTN.addEventListener("click", function () {
+    pauseAudio();
+
+    if (Number(inputBox.value) === 0) {
+        playNaN.play();
+        line1.textContent = '⛔ Not a number!';
     } else {
-        playRight.play();
-        line1.textContent = '🎉 Correct number!';
-        document.getElementsByClassName('icn-box')[0].textContent = myNum;
-        document.getElementsByTagName('body')[0].style.backgroundColor = '#93BD57';
-        document.getElementById('user-input').style.backgroundColor = '#93BD57';
-        if(Number(highScore.textContent) < Number(currScore.textContent))
-        {
-            highScore.textContent = Number(currScore.textContent);
-//            gameReset();
-//            randomNumberGenerator(1, 20);
+        if (Number(currScore.textContent) <= 0) {
+            document.getElementsByTagName('body')[0].style.backgroundColor = '#C5172E';
+            document.getElementById('user-input').style.backgroundColor = '#C5172E';
+            playLoose.play();
+            window.alert('Better luck next time 👎');
+        }
+        if (Number(myNum) !== Number(inputBox.value)) {
+            playWrong.play();
+            document.getElementById('user-input').style.backgroundColor = '#2b2b2b';
+            currScore.textContent = Number(currScore.textContent) - 1;
+            if (inputBox.value > myNum) {
+                line1.textContent = '📈 Too high';
+            } else if (inputBox.value < myNum) {
+                line1.textContent = '📉 Too low';
+            }
+        } else {
+            playRight.play();
+            line1.textContent = '🎉 Correct number!';
+            document.getElementsByClassName('icn-box')[0].textContent = myNum;
+            document.getElementsByTagName('body')[0].style.backgroundColor = '#93BD57';
+            document.getElementById('user-input').style.backgroundColor = '#93BD57';
+            if (Number(highScore.textContent) < Number(currScore.textContent)) {
+                highScore.textContent = Number(currScore.textContent);
+                //            gameReset();
+                //            randomNumberGenerator(1, 20);
+            }
         }
     }
 });
@@ -66,4 +73,18 @@ function gameReset() {
     currScore.textContent = 20;
     highScore.textContent = 0;
     inputBox.value = 1;
+}
+
+function pauseAudio() {
+    playReset.pause();
+    playLoose.pause();
+    playRight.pause();
+    playWrong.pause();
+    playNaN.pause();
+
+    playReset.currentTime = 0;
+    playLoose.currentTime = 0;
+    playRight.currentTime = 0;
+    playWrong.currentTime = 0;
+    playNaN.currentTime = 0;
 }
