@@ -1,3 +1,5 @@
+'use strict'
+
 const currScore = document.getElementById('curr-score');
 const highScore = document.getElementById('high-score');
 const line1 = document.getElementsByClassName('l1')[0];
@@ -20,7 +22,7 @@ resetBTN.addEventListener('click', function(){
 });
 
 submitBTN.addEventListener("click", function() {
-    if(Number(currScore.innerText) <= 0) {
+    if(Number(currScore.textContent) <= 0) {
         document.getElementsByTagName('body')[0].style.backgroundColor = '#C5172E';
         document.getElementById('user-input').style.backgroundColor = '#C5172E';
         playLoose.play();
@@ -29,22 +31,22 @@ submitBTN.addEventListener("click", function() {
     if(Number(myNum) !== Number(inputBox.value)) {
         playWrong.play();
         document.getElementById('user-input').style.backgroundColor = '#2b2b2b';
-        currScore.innerText = Number(currScore.innerText) - 1;
+        currScore.textContent = Number(currScore.textContent) - 1;
         if(inputBox.value > myNum)
         {
-            line1.innerText = '📈 Too high';
+            line1.textContent = '📈 Too high';
         } else if(inputBox.value < myNum) {
-            line1.innerText = '📉 Too low';
+            line1.textContent = '📉 Too low';
         }
     } else {
         playRight.play();
-        line1.innerText = '🎉 Correct number!';
-        document.getElementsByClassName('icn-box')[0].innerText = myNum;
+        line1.textContent = '🎉 Correct number!';
+        document.getElementsByClassName('icn-box')[0].textContent = myNum;
         document.getElementsByTagName('body')[0].style.backgroundColor = '#93BD57';
         document.getElementById('user-input').style.backgroundColor = '#93BD57';
-        if(Number(highScore.innerText) < Number(currScore.innerText))
+        if(Number(highScore.textContent) < Number(currScore.textContent))
         {
-            highScore.innerText = Number(currScore.innerText);
+            highScore.textContent = Number(currScore.textContent);
 //            gameReset();
 //            randomNumberGenerator(1, 20);
         }
@@ -57,11 +59,11 @@ function randomNumberGenerator(min, max) {
 }
 
 function gameReset() {
-    document.getElementsByClassName('icn-box')[0].innerText = '?';
+    document.getElementsByClassName('icn-box')[0].textContent = '?';
     document.getElementById('user-input').style.backgroundColor = '#2B2B2B';
     document.getElementsByTagName('body')[0].style.backgroundColor = '#2B2B2B';
-    line1.innerText = '💭 Start guessing...';
-    currScore.innerText = 20;
-    highScore.innerText = 0;
+    line1.textContent = '💭 Start guessing...';
+    currScore.textContent = 20;
+    highScore.textContent = 0;
     inputBox.value = 1;
 }
